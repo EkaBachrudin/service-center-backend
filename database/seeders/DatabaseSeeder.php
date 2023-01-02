@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\StatusCounter;
+use App\Models\StatusQueue;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RoleSeeder::class,
             UserRoleSeeder::class,
+            StatusCounterSeeder::class,
+            StatusQueueSeeder::class,
         ]);
     }
 }

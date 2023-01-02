@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Counter\CounterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+
+    Route::get('/counters', [CounterController::class, 'getAll']);
+    Route::get('/counter/{id}', [CounterController::class, 'getOne']);
+    Route::post('/counter', [CounterController::class, 'create']);
+    Route::put('/counter/{counter}', [CounterController::class, 'update']);
+    Route::delete('/counter/{id}', [CounterController::class, 'delete']);
 });
 
 Route::middleware('auth:api')->get('/user-profile', function (Request $request) {

@@ -5,8 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserRole extends Model
+class StatusQueue extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
+
+    public function queues()
+    {
+        return $this->hasMany(Queue::class, "setatus_queues_id");
+    }
 }

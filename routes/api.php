@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Counter\CounterController;
+use App\Http\Controllers\Counter\QueueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,13 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/counter', [CounterController::class, 'create']);
     Route::put('/counter/{counter}', [CounterController::class, 'update']);
     Route::delete('/counter/{id}', [CounterController::class, 'delete']);
+
+    Route::get('/queues', [QueueController::class, 'getAll']);
+    Route::get('/queue/{id}', [QueueController::class, 'getOne']);
+    Route::post('/queue', [QueueController::class, 'create']);
+    Route::put('/queue/{queue}', [QueueController::class, 'update']);
+    Route::delete('/queue/{id}', [QueueController::class, 'delete']);
+    Route::get('/queuesByCounter/{id}', [QueueController::class, 'getAllByCounter']);
 });
 
 Route::middleware('auth:api')->get('/user-profile', function (Request $request) {

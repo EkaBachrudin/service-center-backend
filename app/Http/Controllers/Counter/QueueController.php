@@ -187,6 +187,12 @@ class QueueController extends Controller
         ]);
     }
 
+
+
+
+
+
+
     private function getWittingStatus($id)
     {
         $query = Queue::query()->where('counters_id', $id)

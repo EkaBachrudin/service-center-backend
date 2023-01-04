@@ -11,6 +11,7 @@ class StatusQueue extends Model
 
     protected $guarded = [];
 
+
     public function queues()
     {
         return $this->hasMany(Queue::class, "status_queues_id");

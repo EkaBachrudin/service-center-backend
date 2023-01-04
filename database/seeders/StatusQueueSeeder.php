@@ -24,6 +24,9 @@ class StatusQueueSeeder extends Seeder
                 ],
                 [
                     'name' => "Done",
+                ],
+                [
+                    'name' => "Skip",
                 ]
             ]
         );

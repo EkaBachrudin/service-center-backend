@@ -17,6 +17,6 @@ class Queue extends Model
 
     public function status()
     {
-        return $this->belongsTo(StatusQueue::class, "setatus_queues_id");
+        return $this->belongsTo(StatusQueue::class, "status_queues_id");
     }
 }

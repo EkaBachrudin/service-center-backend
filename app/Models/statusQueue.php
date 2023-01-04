@@ -13,6 +13,6 @@ class StatusQueue extends Model
 
     public function queues()
     {
-        return $this->hasMany(Queue::class, "setatus_queues_id");
+        return $this->hasMany(Queue::class, "status_queues_id");
     }
 }

@@ -36,6 +36,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('/queue/{queue}', [QueueController::class, 'update']);
     Route::delete('/queue/{id}', [QueueController::class, 'delete']);
     Route::get('/queuesByCounter/{id}', [QueueController::class, 'getAllByCounter']);
+    Route::put('/changeStatusQueue/{queue}', [QueueController::class, 'control']);
+    Route::get('/queuesByCounter/today/{id}', [QueueController::class, 'getTodayData']);
+    Route::get('/queueStatusWiting/{id}', [QueueController::class, 'getWittingStatus']);
+    Route::get('/queueStatusOccure/{id}', [QueueController::class, 'getOccureStatus']);
 });
 
 Route::middleware('auth:api')->get('/user-profile', function (Request $request) {

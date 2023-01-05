@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Counter;
 
 use App\Http\Controllers\Controller;
 use App\Models\Counter;
+use App\Models\UserCounter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,6 +21,10 @@ class CounterController extends Controller
 
         if ($sort = $request->input('sort')) {
             $query->orderBy('created_at', $sort);
+        }
+
+        if ($status = $request->input('status')) {
+            $query->where('status_counters_id', $status);
         }
 
         $perPage = $request->input('perPage', 10);
@@ -98,6 +103,37 @@ class CounterController extends Controller
 
         return response()->json([
             'message' => 'Delete Successfuly !',
+        ]);
+    }
+
+    public function assigUser(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors(), 'message' => "Input Error"]);
+        }
+
+        $request['counter_id'] = $id;
+
+        $input = $request->all();
+        $data = UserCounter::create($input);
+        return response()->json([
+            'message' => 'Success Assign user to this counter!',
+            'data' => $data,
+        ]);
+    }
+
+    public function unAssigUser($id)
+    {
+        $data  = UserCounter::where('user_id', $id);
+
+        $data->delete();
+
+        return response()->json([
+            'message' => 'Unassign user Successfuly !',
         ]);
     }
 }

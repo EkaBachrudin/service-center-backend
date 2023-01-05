@@ -29,6 +29,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/counter', [CounterController::class, 'create']);
     Route::put('/counter/{counter}', [CounterController::class, 'update']);
     Route::delete('/counter/{id}', [CounterController::class, 'delete']);
+    Route::post('/counter/assignUser/{id}', [CounterController::class, 'assigUser']);
+    Route::delete('/counter/unAssignUser/{id}', [CounterController::class, 'unAssigUser']);
 
     Route::get('/queues', [QueueController::class, 'getAll']);
     Route::get('/queue/{id}', [QueueController::class, 'getOne']);

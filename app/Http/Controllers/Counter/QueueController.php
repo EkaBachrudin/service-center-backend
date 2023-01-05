@@ -113,6 +113,16 @@ class QueueController extends Controller
             $query->orderBy('created_at', $sort);
         }
 
+        if ($status = $request->input('status')) {
+            $query->where('status_queues_id', $status);
+        }
+
+        if ($dateRange = $request->input('dateRange')) {
+            $from = Carbon::createFromFormat('Y-m-d', '2021-06-01');
+            $to = Carbon::createFromFormat('Y-m-d', '2023-01-05');
+            $query->whereBetween('created_at', [$from, $to]);
+        }
+
         $perPage = $request->input('perPage', 10);
         $currentPage = $request->input('currentPage', 1);
         $total = $query->count();
@@ -142,15 +152,42 @@ class QueueController extends Controller
 
         $data = Queue::find($queue->id);
 
-        $previousDataOccure = Queue::find($queue->id + 1);
+        //If Change to Witing (Previouse)
+        if ($request['status_queues_id'] == 1) {
+            $previousDataOccure = Queue::find($queue->id - 1);
 
-        if ($previousDataOccure) {
-            $request['status_queues_id'] = 2;
+            if ($previousDataOccure) {
+                $request['status_queues_id'] = 2;
 
-            $input = $request->all();
+                $input = $request->all();
 
-            $previousDataOccure->update($input);
+                $previousDataOccure->update($input);
+            }
         }
+
+        //If Change to done (Next)
+        if ($request['status_queues_id'] == 3) {
+            $previousDataOccure = Queue::find($queue->id + 1);
+
+            if ($previousDataOccure) {
+                $previousDataOccure->status_queues_id = 2;
+                $previousDataOccure->save();
+            }
+        }
+
+        //If Change to Skip (Skip)
+        if ($request['status_queues_id'] == 4) {
+            $previousDataOccure = Queue::find($queue->id + 1);
+
+            if ($previousDataOccure) {
+                $request['status_queues_id'] = 2;
+
+                $input = $request->all();
+
+                $previousDataOccure->update($input);
+            }
+        }
+
 
         return response()->json([
             'message' => 'Change To ' . $data->status->name . ' Success !',
@@ -201,8 +238,11 @@ class QueueController extends Controller
             ]);
         }
 
+        $query->status_queues_id = 2;
+        $query->save();
+
         return response()->json([
-            'message' => 'Success Get Queue Oldest Today !',
+            'message' => 'Success Get firts queue witing status Oldest Today !',
             'data' => $query,
         ]);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Counter;
 use App\Http\Controllers\Controller;
 use App\Models\Counter;
 use App\Models\UserCounter;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -134,6 +135,16 @@ class CounterController extends Controller
 
         return response()->json([
             'message' => 'Unassign user Successfuly !',
+        ]);
+    }
+
+    public function getCounterByUser($id){
+        $data  = User::find($id);
+        $co = $data->counters;
+
+        return response()->json([
+            'message' => 'Success Get All Counter by User',
+            'data' => $co,
         ]);
     }
 }

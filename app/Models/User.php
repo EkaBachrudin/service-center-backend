@@ -64,6 +64,21 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+
+    //Check Role
+
+    public function getIsAdminCounterAttribute()
+    {
+        return $this->roles()->where('role_id', 2)->exists();
+    }
+
+     public function getIsUserCounterAttribute()
+    {
+        return $this->roles()->where('role_id', 3)->exists();
+    }
+
+    //End Check Role
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles');
@@ -71,6 +86,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function counters()
     {
-        return $this->belongsToMany(UserCounter::class, 'user_counters');
+        return $this->belongsToMany(Counter::class, 'user_counters');
     }
 }

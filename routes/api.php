@@ -23,6 +23,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::get('/user-roles', [AuthController::class, 'userRoles']);
 
     Route::get('/counters', [CounterController::class, 'getAll']);
     Route::get('/counter/{id}', [CounterController::class, 'getOne']);
@@ -42,8 +43,4 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/queuesByCounter/today/{id}', [QueueController::class, 'getTodayData']);
     Route::get('/queueStatusWiting/{id}', [QueueController::class, 'getWittingStatus']);
     Route::get('/queueStatusOccure/{id}', [QueueController::class, 'getOccureStatus']);
-});
-
-Route::middleware('auth:api')->get('/user-profile', function (Request $request) {
-    return $request->user();
 });

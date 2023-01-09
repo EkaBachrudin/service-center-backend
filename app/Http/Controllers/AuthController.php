@@ -82,6 +82,10 @@ class AuthController extends Controller
     public function userProfile() {
         return response()->json(auth()->user());
     }
+
+    public function userRoles() {
+        return response()->json(auth()->user()->roles);
+    }
     /**
      * Get the token array structure.
      *

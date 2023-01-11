@@ -16,8 +16,7 @@ class CounterController extends Controller
         $query = Counter::query();
 
         if ($search = $request->input('search')) {
-            $query->where('name', 'LIKE', '%' . $search . '%')
-                ->orWhere('purpose', 'LIKE', '%' . $search . '%');
+            $query->where('name', 'LIKE', '%' . $search . '%');
         }
 
         if ($sort = $request->input('sort')) {

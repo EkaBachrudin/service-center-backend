@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Counter\CounterController;
 use App\Http\Controllers\Counter\QueueController;
 use Illuminate\Http\Request;
@@ -22,8 +23,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/user-profile', [AuthController::class, 'userProfile']);
-    Route::get('/user-roles', [AuthController::class, 'userRoles']);
+
+
+    Route::get('/user-profile', [UserController::class, 'userProfile']);
+    Route::get('/user-roles', [UserController::class, 'userRoles']);
+    Route::get('/users', [UserController::class, 'getAllUsers']);
+
 
     Route::get('/counters', [CounterController::class, 'getAll']);
     Route::get('/counter/{id}', [CounterController::class, 'getOne']);
@@ -32,6 +37,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('/counter/{id}', [CounterController::class, 'delete']);
     Route::post('/counter/assignUser/{id}', [CounterController::class, 'assigUser']);
     Route::delete('/counter/unAssignUser/{id}', [CounterController::class, 'unAssigUser']);
+
 
     Route::get('/queues', [QueueController::class, 'getAll']);
     Route::get('/queue/{id}', [QueueController::class, 'getOne']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Counter;
 
 class UserController extends Controller
 {
@@ -20,6 +21,16 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Success get all users',
             'data' => $users
+        ]);
+    }
+
+    public function getAllUserByCounter($id){
+        $data  = Counter::find($id);
+        $user = $data->users;
+
+        return response()->json([
+            'message' => 'Success Get All User by Counter',
+            'data' => $user,
         ]);
     }
 }

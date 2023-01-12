@@ -28,6 +28,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/user-profile', [UserController::class, 'userProfile']);
     Route::get('/user-roles', [UserController::class, 'userRoles']);
     Route::get('/users', [UserController::class, 'getAllUsers']);
+    Route::get('/user/getUserByCounter/{id}', [UserController::class, 'getAllUserByCounter']);
 
 
     Route::get('/counters', [CounterController::class, 'getAll']);
@@ -37,6 +38,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('/counter/{id}', [CounterController::class, 'delete']);
     Route::post('/counter/assignUser/{id}', [CounterController::class, 'assigUser']);
     Route::delete('/counter/unAssignUser/{id}', [CounterController::class, 'unAssigUser']);
+    Route::get('/counter/getByUser/{id}', [CounterController::class, 'getCounterByUser']);
 
 
     Route::get('/queues', [QueueController::class, 'getAll']);

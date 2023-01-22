@@ -141,6 +141,11 @@ class QueueController extends Controller
 
     public function control(Request $request, Queue $queue)
     {
+        $counter_id = $request->counters_id;
+
+        // $data = Queue::where("counters_id", $counter_id)->where("status_queues_id", 1)->first();
+
+        // dd(json_encode($data));
 
         if (!$request->input('status_queues_id')) {
             $input = $request['status_queues_id'] = 1;
@@ -154,7 +159,7 @@ class QueueController extends Controller
 
         //If Change to Witing (Previouse)
         if ($request['status_queues_id'] == 1) {
-            $previousDataOccure = Queue::find($queue->id - 1);
+            $previousDataOccure = Queue::where("counters_id", $counter_id)->where("status_queues_id", 3)->orwhere("status_queues_id", 4)->orderBy('created_at', 'desc')->first();
 
             if ($previousDataOccure) {
                 $request['status_queues_id'] = 2;
@@ -167,24 +172,24 @@ class QueueController extends Controller
 
         //If Change to done (Next)
         if ($request['status_queues_id'] == 3) {
-            $previousDataOccure = Queue::find($queue->id + 1);
+            $nextDataOccure = Queue::where("counters_id", $counter_id)->where("status_queues_id", 1)->first();
 
-            if ($previousDataOccure) {
-                $previousDataOccure->status_queues_id = 2;
-                $previousDataOccure->save();
+            if ($nextDataOccure) {
+                $nextDataOccure->status_queues_id = 2;
+                $nextDataOccure->save();
             }
         }
 
         //If Change to Skip (Skip)
         if ($request['status_queues_id'] == 4) {
-            $previousDataOccure = Queue::find($queue->id + 1);
+            $skipDataOccure = Queue::where("counters_id", $counter_id)->where("status_queues_id", 1)->first();
 
-            if ($previousDataOccure) {
+            if ($skipDataOccure) {
                 $request['status_queues_id'] = 2;
 
                 $input = $request->all();
 
-                $previousDataOccure->update($input);
+                $skipDataOccure->update($input);
             }
         }
 

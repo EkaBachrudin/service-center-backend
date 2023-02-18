@@ -50,4 +50,5 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('/changeStatusQueue/{queue}', [QueueController::class, 'control']);
     Route::get('/queuesByCounter/today/{id}', [QueueController::class, 'getTodayData']);
     Route::get('/queueStatusOccure/{id}', [QueueController::class, 'getOccureStatus']);
+    Route::get('/latestQueueByCounter/today/{id}', [QueueController::class, 'latestQueueByCounter']);
 });

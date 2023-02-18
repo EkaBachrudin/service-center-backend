@@ -143,19 +143,24 @@ class QueueController extends Controller
     {
         $counter_id = $request->counters_id;
 
-        // $data = Queue::where("counters_id", $counter_id)->where("status_queues_id", 1)->first();
-
-        // dd(json_encode($data));
-
-        if (!$request->input('status_queues_id')) {
-            $input = $request['status_queues_id'] = 1;
-        }
-
         $input = $request->all();
 
         $queue->update($input);
 
         $data = Queue::find($queue->id);
+
+        //If To Occure (Back to occure after all done/skip)
+        if ($request['status_queues_id'] == 2) {
+            $oc = Queue::where("counters_id", $counter_id)->orderBy('created_at', 'desc')->first();
+
+            if ($oc) {
+                $request['status_queues_id'] = 2;
+
+                $input = $request->all();
+
+                $oc->update($input);
+            }
+        }
 
         //If Change to Witing (Previouse)
         if ($request['status_queues_id'] == 1) {
@@ -211,6 +216,19 @@ class QueueController extends Controller
             'data' => $result,
         ]);
     }
+
+    public function latestQueueByCounter($id){
+    $query = Queue::where('counters_id', $id)
+                ->whereDate('created_at', Carbon::today())
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+     return response()->json([
+            'message' => 'Success Get Last Queue!',
+            'data' => $query,
+    ]);
+    }
+
 
     public function getOccureStatus($id)
     {

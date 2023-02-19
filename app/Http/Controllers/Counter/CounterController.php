@@ -146,4 +146,12 @@ class CounterController extends Controller
             'data' => $co,
         ]);
     }
+
+    public function getAllCounterPublic (){
+        $data = Counter::where('status_counters_id', 1)->latest()->get();
+        return response()->json([
+            'message' => 'Success get all public counter',
+            'data' => $data,
+        ]);
+    }
 }

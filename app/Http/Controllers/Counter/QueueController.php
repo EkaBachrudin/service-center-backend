@@ -65,6 +65,27 @@ class QueueController extends Controller
         ]);
     }
 
+    public function createPublic(Request $request)
+    {
+        $request['status_queues_id'] = 1;
+        $request['note'] = '-';
+
+
+        $input = $request->all();
+        $data = Queue::create($input);
+
+        $numberQueue = Queue::where('counters_id', $request['counters_id'])
+                ->whereDate('created_at', Carbon::today())
+                ->get();
+
+        return response()->json([
+            'message' => 'Success Created !',
+            'number_queue' => $numberQueue->count(),
+            'counter' => $data->counter,
+            'data' => $data,
+        ]);
+    }
+
     public function update(Request $request, Queue $queue)
     {
         $validator = Validator::make($request->all(), [
@@ -226,6 +247,24 @@ class QueueController extends Controller
      return response()->json([
             'message' => 'Success Get Last Queue!',
             'data' => $query,
+    ]);
+    }
+
+    public function latestQueueByCounterPublic($id){
+    $query = Queue::where('counters_id', $id)
+                ->whereDate('created_at', Carbon::today())
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+    $total = Queue::where('counters_id', $id)
+                ->whereDate('created_at', Carbon::today())
+                ->get();
+
+
+     return response()->json([
+            'message' => 'Success Get Last Queue Public!',
+            'data' => $query,
+            'total' => $total->count(),
     ]);
     }
 

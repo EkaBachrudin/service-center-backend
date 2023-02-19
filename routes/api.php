@@ -52,3 +52,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/queueStatusOccure/{id}', [QueueController::class, 'getOccureStatus']);
     Route::get('/latestQueueByCounter/today/{id}', [QueueController::class, 'latestQueueByCounter']);
 });
+
+Route::post('/public/queue', [QueueController::class, 'createPublic']);
+Route::get('/public/counters', [CounterController::class, 'getAllCounterPublic']);
+Route::get('/public/latestQueueByCounter/today/{id}', [QueueController::class, 'latestQueueByCounterPublic']);
